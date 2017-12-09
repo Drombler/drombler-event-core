@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.drombler.media.importing.samsung.galaxy;
+package org.drombler.media.importing.iphone;
 
 import org.drombler.media.core.AbstractMediaOrganizer;
 import java.io.IOException;
@@ -21,21 +21,21 @@ import org.drombler.identity.core.DromblerUserId;
  *
  * @author Florian
  */
-public class SamsungMobileMediaOrganizer extends AbstractMediaOrganizer {
+public class IPhoneMobileMediaOrganizer extends AbstractMediaOrganizer {
 
     public static void main(String[] args) throws IOException {
         Path baseDirPath = Paths.get("\\\\diskstation\\photo\\Puce-Mobile");
 
         DromblerId defaultDromblerId = new DromblerUserId("puce");
 
-        SamsungMobileMediaOrganizer organizer = new SamsungMobileMediaOrganizer(Paths.get("media-event-dir-paths.txt"));
+        IPhoneMobileMediaOrganizer organizer = new IPhoneMobileMediaOrganizer(Paths.get("media-event-dir-paths.txt"));
         organizer.organize(baseDirPath, defaultDromblerId);
     }
 
-    private static final Pattern RAW_DATE_PATTERN = Pattern.compile("(\\d{8}_\\d{6})\\..*");
+    private static final Pattern RAW_DATE_PATTERN = Pattern.compile("IMG_(\\d{8}_\\d{6})\\..*");
     private static final DateTimeFormatter RAW_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
 
-    public SamsungMobileMediaOrganizer(Path mediaEventDirPathsFilePath) throws IOException {
+    public IPhoneMobileMediaOrganizer(Path mediaEventDirPathsFilePath) throws IOException {
         super(mediaEventDirPathsFilePath, RAW_DATE_PATTERN, false);
     }
 
