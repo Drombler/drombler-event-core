@@ -7,6 +7,7 @@ package org.drombler.event.core;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  *
@@ -14,10 +15,12 @@ import java.util.Optional;
  */
 public class Event {
 
+    private final UUID id;
     private final String name;
     private final EventDuration duration;
 
-    public Event(String name, EventDuration duration) {
+    public Event(UUID id, String name, EventDuration duration) {
+        this.id = id;
         this.name = name;
         this.duration = duration;
     }
@@ -75,12 +78,16 @@ public class Event {
                             ? FullTimeEventDuration.singleDay(parts[0])
                             : FullTimeEventDuration.period(parts[0], parts[1]);
             if (duration.isPresent()) {
-                return Optional.of(new Event((parts.length == 2) ? parts[1] : parts[2], duration.get()));
+                return Optional.of(new Event(UUID.randomUUID(), (parts.length == 2) ? parts[1] : parts[2], duration.get()));
             } else {
                 return Optional.empty();
             }
         } else {
             return Optional.empty();
         }
+    }
+
+    public UUID getId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

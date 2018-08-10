@@ -84,7 +84,7 @@ public abstract class AbstractMediaOrganizer {
     }
 
     private Event createEvent(LocalDate date) {
-        return new Event("", new FullTimeEventDuration(date, date));
+        return new Event(null, "", new FullTimeEventDuration(date, date));
     }
 
     private void updateEventMap(Event event) {
