@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 import org.drombler.event.core.Event;
 import org.drombler.event.core.EventDuration;
 import org.drombler.event.core.FullTimeEventDuration;
+import org.drombler.event.management.EventManager;
 import org.drombler.identity.core.DromblerId;
 import org.drombler.media.core.photo.PhotoStorage;
 import org.drombler.media.core.video.VideoStorage;
@@ -36,18 +37,14 @@ import org.drombler.media.importing.ImportEventDurationComparator;
  */
 public abstract class AbstractMediaOrganizer {
 
-    private final Map<LocalDate, SortedSet<Event>> events = new HashMap<>();
-    private final Comparator<EventDuration> eventDurationComparator = new ImportEventDurationComparator();
-    private final Comparator<Event> eventComparator = Comparator.comparing(Event::getDuration, eventDurationComparator).thenComparing(Event::getName);
+    private final EventManager eventManager = new EventManager();
     private final Pattern rawDatePattern;
     private final boolean directories;
 
-    protected AbstractMediaOrganizer(Path mediaEventDirPathsFilePath, Pattern rawDatePattern, boolean directories) throws IOException {
+    protected AbstractMediaOrganizer(Pattern rawDatePattern, boolean directories) throws IOException {
         this.rawDatePattern = rawDatePattern;
         this.directories = directories;
-        Files.lines(mediaEventDirPathsFilePath)
-                .map(Paths::get)
-                .forEach(this::updateEventMap);
+        
 //        Path albenDirPath = Paths.get("\\\\diskstation\\photo\\Alben");
 //        Path privatvideoPath = Paths.get("\\\\diskstation\\video\\privatvideo");
 //        updateEventMap(albenDirPath);
@@ -78,41 +75,12 @@ public abstract class AbstractMediaOrganizer {
         Files.move(filePath, targetDirPath.resolve(filePath.getFileName()));
     }
 
-    private Event getFirstEvent(LocalDate date) {
-        updateEventMap(createEvent(date));
-        return events.get(date).first();
-    }
-
-    private Event createEvent(LocalDate date) {
-        return new Event(null, "", new FullTimeEventDuration(date, date));
-    }
-
-    private void updateEventMap(Event event) {
-        final FullTimeEventDuration duration = (FullTimeEventDuration) event.getDuration();
-        for (LocalDate date = duration.getStartDateInclusive(); date.isBefore(duration.getEndDateInclusive()) || date.equals(duration.getEndDateInclusive()); date = date.plusDays(1)) {
-            if (!events.containsKey(date)) {
-                events.put(date, new TreeSet<>(eventComparator));
-            }
-            if (!events.get(date).contains(event)) {
-                events.get(date).add(event);
-                System.out.println(event.getName() + " - " + event.getDirName());
-            }
-        }
-    }
-
-    private void updateEventMap(Path basePath) {
-        try (final Stream<Path> paths = Files.list(basePath)) {
-            paths.filter(Files::isDirectory).map((Path path) -> Event.fullTimeDayEvent(path.getFileName().toString())).filter(Optional::isPresent).map(Optional::get).forEach(this::updateEventMap);
-        } catch (IOException ex) {
-            Logger.getLogger(AbstractMediaOrganizer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     private Event getFirstEvent(Path path) {
         final Matcher matcher = rawDatePattern.matcher(getPathName(path));
         if (matcher.matches()) {
             LocalDate date = getDate(matcher);
-            return getFirstEvent(date);
+            return eventManager.getFirstEvent(date);
         } else {
             throw new IllegalStateException("Should be matching here: " + getPathName(path));
         }
@@ -121,8 +89,8 @@ public abstract class AbstractMediaOrganizer {
     public void organize(Path baseDirPath, DromblerId defaultDromblerId) throws IOException {
         PhotoStorage photoStorage = new PhotoStorage(baseDirPath);
         VideoStorage videoStorage = new VideoStorage(baseDirPath);
-        updateEventMap(photoStorage.getMediaRootDir());
-        updateEventMap(videoStorage.getMediaRootDir());
+        eventManager.updateEventMap(photoStorage.getMediaRootDir());
+        eventManager.updateEventMap(videoStorage.getMediaRootDir());
 
         try (final Stream<Path> paths = Files.list(baseDirPath)) {
             paths.filter(path -> ((directories && Files.isDirectory(path)) || (!directories && !Files.isDirectory(path)))

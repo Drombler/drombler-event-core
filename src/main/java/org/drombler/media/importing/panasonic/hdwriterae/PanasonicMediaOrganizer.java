@@ -27,15 +27,15 @@ public class PanasonicMediaOrganizer extends AbstractMediaOrganizer {
         Path baseDirPath = Paths.get("D:\\hd-writer-ae-tmp");
         DromblerId defaultDromblerId = new DromblerUserId("puce");
 
-        PanasonicMediaOrganizer organizer = new PanasonicMediaOrganizer(Paths.get("media-event-dir-paths.txt"));
+        PanasonicMediaOrganizer organizer = new PanasonicMediaOrganizer();
         organizer.organize(baseDirPath, defaultDromblerId);
     }
 
     private static final Pattern RAW_DATE_PATTERN = Pattern.compile("\\d{2}-\\d{2}-\\d{4}");
     private static final DateTimeFormatter RAW_DATE_FORMATTER = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
-    public PanasonicMediaOrganizer(Path mediaEventDirPathsFilePath) throws IOException {
-        super(mediaEventDirPathsFilePath, RAW_DATE_PATTERN, true);
+    public PanasonicMediaOrganizer() throws IOException {
+        super(RAW_DATE_PATTERN, true);
     }
 
     @Override

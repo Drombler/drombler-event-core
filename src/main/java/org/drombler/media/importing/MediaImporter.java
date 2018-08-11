@@ -25,8 +25,7 @@ import org.drombler.media.importing.samsung.galaxy.ThreemaMediaOrganizer;
 public class MediaImporter {
 
     public static void main(String... args) throws IOException {
-        Path mediaEventDirPathsFilePath = Paths.get("media-event-dir-paths.txt");
-        List<MediaImportJob> puceMediaImportJobs = createPuceMediaImportJobs(mediaEventDirPathsFilePath);
+        List<MediaImportJob> puceMediaImportJobs = createPuceMediaImportJobs();
         puceMediaImportJobs.forEach(job -> {
             try {
                 job.run();
@@ -36,7 +35,7 @@ public class MediaImporter {
         });
     }
 
-    private static List<MediaImportJob> createPuceMediaImportJobs(Path mediaEventDirPathsFilePath) throws IOException {
+    private static List<MediaImportJob> createPuceMediaImportJobs() throws IOException {
         Path puceMobileDirPath = Paths.get("\\\\diskstation\\photo\\Puce-Mobile");
         DromblerId puceDromblerId = new DromblerUserId("puce");
 
@@ -45,7 +44,7 @@ public class MediaImporter {
         return Arrays.asList(
 //                new MediaImportJob(puceMobileDirPath, puceDromblerId, new SamsungMobileMediaOrganizer(mediaEventDirPathsFilePath)),
 //                new MediaImportJob(puceMobileDirPath, defaultDromblerId, new ThreemaMediaOrganizer(mediaEventDirPathsFilePath)),
-                new MediaImportJob(puceMobileDirPath, puceDromblerId, new IPhoneMobileMediaOrganizer(mediaEventDirPathsFilePath))
+                new MediaImportJob(puceMobileDirPath, puceDromblerId, new IPhoneMobileMediaOrganizer())
         );
 
     }
