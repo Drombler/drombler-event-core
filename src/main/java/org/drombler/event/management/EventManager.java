@@ -17,8 +17,6 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.drombler.event.core.Event;
@@ -26,12 +24,16 @@ import org.drombler.event.core.EventDuration;
 import org.drombler.event.core.FullTimeEventDuration;
 import org.drombler.media.core.AbstractMediaOrganizer;
 import org.drombler.media.importing.ImportEventDurationComparator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Florian
  */
 public class EventManager {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EventManager.class);
 
     private final Map<LocalDate, SortedSet<Event>> events = new HashMap<>();
     private final Comparator<EventDuration> eventDurationComparator = new ImportEventDurationComparator();
@@ -49,7 +51,7 @@ public class EventManager {
         try (final Stream<Path> paths = Files.list(basePath)) {
             paths.filter(Files::isDirectory).map((Path path) -> Event.fullTimeDayEvent(path.getFileName().toString())).filter(Optional::isPresent).map(Optional::get).forEach(this::updateEventMap);
         } catch (IOException ex) {
-            Logger.getLogger(AbstractMediaOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex.getMessage(), ex);
         }
     }
 
@@ -61,7 +63,7 @@ public class EventManager {
             }
             if (!events.get(date).contains(event)) {
                 events.get(date).add(event);
-                System.out.println(event.getName() + " - " + event.getDirName());
+                LOG.debug(event.getName() + " - " + event.getDirName());
             }
         }
     }
