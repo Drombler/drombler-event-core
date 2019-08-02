@@ -37,7 +37,8 @@ public class EventManager {
 
     private final Map<LocalDate, SortedSet<Event>> events = new HashMap<>();
     private final Comparator<EventDuration> eventDurationComparator = new ImportEventDurationComparator();
-    private final Comparator<Event> eventComparator = Comparator.comparing(Event::getDuration, eventDurationComparator).thenComparing(Event::getName);
+    private final Comparator<Event> eventComparator = Comparator.comparing(Event::getDuration, eventDurationComparator)
+            .thenComparing(Event::getName);
 
     public EventManager() throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(EventManager.class.getResourceAsStream("media-event-dir-paths.txt"), Charset.forName("UTF-8")))) {
@@ -49,7 +50,10 @@ public class EventManager {
 
     public void updateEventMap(Path basePath) {
         try (final Stream<Path> paths = Files.list(basePath)) {
-            paths.filter(Files::isDirectory).map((Path path) -> Event.fullTimeDayEvent(path.getFileName().toString())).filter(Optional::isPresent).map(Optional::get).forEach(this::updateEventMap);
+            paths.filter(Files::isDirectory).map((Path path) -> Event.fullTimeDayEvent(path.getFileName().toString()))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .forEach(this::updateEventMap);
         } catch (IOException ex) {
             LOG.error(ex.getMessage(), ex);
         }
