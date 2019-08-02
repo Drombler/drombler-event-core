@@ -20,7 +20,8 @@ public class ImportEventDurationComparator implements Comparator<EventDuration> 
     private static final int EQUAL = 0;
 
     private final Comparator<FullTimeEventDuration> fullTimeEventDurationComparator
-            = Comparator.comparing(FullTimeEventDuration::getStartDateInclusive).thenComparing(FullTimeEventDuration::getEndDateInclusive);
+            = Comparator.comparing(FullTimeEventDuration::getStartDateInclusive)
+                    .thenComparing(FullTimeEventDuration::getEndDateInclusive);
 
     @Override
     public int compare(EventDuration ed1, EventDuration ed2) {
