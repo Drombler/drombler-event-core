@@ -31,12 +31,12 @@ public class ThreemaMediaOrganizer extends AbstractMediaOrganizer {
         Path baseDirPath = Paths.get("\\\\diskstation\\photo\\Puce-Mobile");
         DromblerId defaultDromblerId = new DromblerUserId("unknown");
 
-        ThreemaMediaOrganizer organizer = new ThreemaMediaOrganizer(Paths.get("media-event-dir-paths.txt"));
+        ThreemaMediaOrganizer organizer = new ThreemaMediaOrganizer();
         organizer.organize(baseDirPath, defaultDromblerId);
     }
 
-    public ThreemaMediaOrganizer(Path mediaEventDirPathsFilePath) throws IOException {
-        super(mediaEventDirPathsFilePath, RAW_DATE_PATTERN, false);
+    public ThreemaMediaOrganizer() throws IOException {
+        super(RAW_DATE_PATTERN, false);
     }
     
     @Override

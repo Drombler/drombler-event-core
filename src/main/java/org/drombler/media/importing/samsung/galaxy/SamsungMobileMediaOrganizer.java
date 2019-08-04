@@ -28,15 +28,15 @@ public class SamsungMobileMediaOrganizer extends AbstractMediaOrganizer {
 
         DromblerId defaultDromblerId = new DromblerUserId("puce");
 
-        SamsungMobileMediaOrganizer organizer = new SamsungMobileMediaOrganizer(Paths.get("media-event-dir-paths.txt"));
+        SamsungMobileMediaOrganizer organizer = new SamsungMobileMediaOrganizer();
         organizer.organize(baseDirPath, defaultDromblerId);
     }
 
     private static final Pattern RAW_DATE_PATTERN = Pattern.compile("(\\d{8}_\\d{6})\\..*");
     private static final DateTimeFormatter RAW_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
 
-    public SamsungMobileMediaOrganizer(Path mediaEventDirPathsFilePath) throws IOException {
-        super(mediaEventDirPathsFilePath, RAW_DATE_PATTERN, false);
+    public SamsungMobileMediaOrganizer() throws IOException {
+        super(RAW_DATE_PATTERN, false);
     }
 
     @Override

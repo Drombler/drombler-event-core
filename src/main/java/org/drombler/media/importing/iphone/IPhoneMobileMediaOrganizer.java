@@ -28,15 +28,15 @@ public class IPhoneMobileMediaOrganizer extends AbstractMediaOrganizer {
 
         DromblerId defaultDromblerId = new DromblerUserId("puce");
 
-        IPhoneMobileMediaOrganizer organizer = new IPhoneMobileMediaOrganizer(Paths.get("media-event-dir-paths.txt"));
+        IPhoneMobileMediaOrganizer organizer = new IPhoneMobileMediaOrganizer();
         organizer.organize(baseDirPath, defaultDromblerId);
     }
 
     private static final Pattern RAW_DATE_PATTERN = Pattern.compile("IMG_(\\d{8}_\\d{6})\\..*");
     private static final DateTimeFormatter RAW_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
 
-    public IPhoneMobileMediaOrganizer(Path mediaEventDirPathsFilePath) throws IOException {
-        super(mediaEventDirPathsFilePath, RAW_DATE_PATTERN, false);
+    public IPhoneMobileMediaOrganizer() throws IOException {
+        super(RAW_DATE_PATTERN, false);
     }
 
     @Override

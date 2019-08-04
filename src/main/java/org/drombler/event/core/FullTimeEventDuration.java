@@ -10,12 +10,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Florian
  */
 public class FullTimeEventDuration implements EventDuration {
+    private static final Logger LOG = LoggerFactory.getLogger(FullTimeEventDuration.class);
 
     private static final String MONTH_APPENDIX = "00";
     private static final DateTimeFormatter SINGLE_DAY_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -91,6 +94,7 @@ public class FullTimeEventDuration implements EventDuration {
             final LocalDate date = SINGLE_DAY_FORMATTER.parse(dirName, LocalDate::from);
             return Optional.of(new FullTimeEventDuration(date, date));
         } else {
+            LOG.warn("Could not parse duration for: " + dirName);
             return Optional.empty();
         }
     }
