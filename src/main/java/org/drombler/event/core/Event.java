@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.drombler.event.management.EventManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

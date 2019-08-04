@@ -1,6 +1,5 @@
 package org.drombler.event.management;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,7 +12,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -22,7 +20,6 @@ import java.util.stream.Stream;
 import org.drombler.event.core.Event;
 import org.drombler.event.core.EventDuration;
 import org.drombler.event.core.FullTimeEventDuration;
-import org.drombler.media.core.AbstractMediaOrganizer;
 import org.drombler.media.importing.ImportEventDurationComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
