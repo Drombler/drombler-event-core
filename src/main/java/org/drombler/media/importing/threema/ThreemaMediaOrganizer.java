@@ -28,6 +28,8 @@ public class ThreemaMediaOrganizer extends AbstractMediaOrganizer {
     private static final Pattern RAW_DATE_PATTERN = Pattern.compile("\\d+(\\d{13}).*");
 
     public static void main(String[] args) throws IOException {
+        initLogger();
+
         Path baseDirPath = Paths.get("\\\\diskstation\\photo\\Puce-Mobile");
         DromblerId defaultDromblerId = new DromblerUserId("unknown");
 
@@ -38,7 +40,7 @@ public class ThreemaMediaOrganizer extends AbstractMediaOrganizer {
     public ThreemaMediaOrganizer() throws IOException {
         super(RAW_DATE_PATTERN, false);
     }
-    
+
     @Override
     protected LocalDate getDate(final Matcher matcher) throws NumberFormatException {
         Instant instant = Instant.ofEpochMilli(Long.parseLong(matcher.group(1)));

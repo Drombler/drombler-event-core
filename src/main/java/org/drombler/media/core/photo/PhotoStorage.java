@@ -14,6 +14,6 @@ import org.drombler.media.core.MediaStorage;
  */
 public class PhotoStorage extends MediaStorage{
     public PhotoStorage(Path mediaParentDirPath){
-        super(mediaParentDirPath.resolve("photo"),".jpg");
+        super(mediaParentDirPath.resolve("photo"),".jpg",".png");
     }
 }

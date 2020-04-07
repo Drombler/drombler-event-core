@@ -17,13 +17,15 @@ import org.drombler.identity.core.DromblerId;
 import org.drombler.identity.core.DromblerUserId;
 
 /**
- * Organizes Files from Panasonic import for Synology import.
+ * Organizes Files from iPhone import for Synology import.
  *
  * @author Florian
  */
 public class IPhoneMobileMediaOrganizer extends AbstractMediaOrganizer {
 
     public static void main(String[] args) throws IOException {
+        initLogger();
+
         Path baseDirPath = Paths.get("\\\\diskstation\\photo\\Puce-Mobile");
 
         DromblerId defaultDromblerId = new DromblerUserId("puce");

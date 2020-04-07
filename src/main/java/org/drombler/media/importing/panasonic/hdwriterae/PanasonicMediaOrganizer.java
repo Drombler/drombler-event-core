@@ -24,6 +24,8 @@ import org.drombler.identity.core.DromblerUserId;
 public class PanasonicMediaOrganizer extends AbstractMediaOrganizer {
 
     public static void main(String[] args) throws IOException {
+        initLogger();
+        
         Path baseDirPath = Paths.get("D:\\hd-writer-ae-tmp");
         DromblerId defaultDromblerId = new DromblerUserId("puce");
 

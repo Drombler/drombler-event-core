@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.drombler</groupId>
         <artifactId>drombler-oss-parent</artifactId>
-        <version>3.1</version>
+        <version>3.3.1</version>
         <relativePath />
     </parent>
     <groupId>org.drombler.media</groupId>
@@ -31,6 +31,19 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+        </dependency>
+        
+        <!-- Replace with any SLF4J binding you like-->
+        <!-- Here the binding for java.util.logging is used, since the jar is very small. -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.softsmithy.lib</groupId>
+            <artifactId>softsmithy-lib-core</artifactId>
         </dependency>
     </dependencies>
 </project>

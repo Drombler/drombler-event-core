@@ -11,25 +11,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.drombler.event.core.Event;
-import org.drombler.event.core.EventDuration;
-import org.drombler.event.core.FullTimeEventDuration;
 import org.drombler.event.management.EventManager;
 import org.drombler.identity.core.DromblerId;
 import org.drombler.media.core.photo.PhotoStorage;
 import org.drombler.media.core.video.VideoStorage;
-import org.drombler.media.importing.ImportEventDurationComparator;
 
 /**
  *
@@ -37,14 +29,24 @@ import org.drombler.media.importing.ImportEventDurationComparator;
  */
 public abstract class AbstractMediaOrganizer {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMediaOrganizer.class);
+
     private final EventManager eventManager = new EventManager();
     private final Pattern rawDatePattern;
     private final boolean directories;
 
+    protected final static void initLogger() throws IOException {
+        // TODO: extend and use JarFiles (SoftSmithy)
+        String userDir = System.getProperty("user.dir");
+        Path loggingPropertiesPath = Paths.get(userDir, "src","main","conf","logging.properties");
+        System.setProperty("java.util.logging.config.file", loggingPropertiesPath.toString());
+        LogManager.getLogManager().readConfiguration(); // seems to be necessary!?
+    }
+
     protected AbstractMediaOrganizer(Pattern rawDatePattern, boolean directories) throws IOException {
         this.rawDatePattern = rawDatePattern;
         this.directories = directories;
-        
+
 //        Path albenDirPath = Paths.get("\\\\diskstation\\photo\\Alben");
 //        Path privatvideoPath = Paths.get("\\\\diskstation\\video\\privatvideo");
 //        updateEventMap(albenDirPath);
@@ -75,7 +77,6 @@ public abstract class AbstractMediaOrganizer {
         Files.move(filePath, targetDirPath.resolve(filePath.getFileName()));
     }
 
-
     private Event getFirstEvent(Path path) {
         final Matcher matcher = rawDatePattern.matcher(getPathName(path));
         if (matcher.matches()) {
@@ -105,9 +106,9 @@ public abstract class AbstractMediaOrganizer {
                 try (final Stream<Path> paths = Files.list(path)) {
                     paths.forEach(filePath -> {
                         try {
-                            moveFile(filePath, defaultDromblerId, photoStorage, videoStorage);
+                            moveFile(filePath, defaultDromblerId, photoStorage, videoStorage, Files.size(filePath) < 1000000);
                         } catch (IOException ex) {
-                            Logger.getLogger(AbstractMediaOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+                            LOGGER.error("Error during moving file!", ex);
                         }
                     });
                 }
@@ -115,20 +116,20 @@ public abstract class AbstractMediaOrganizer {
                     deleteEmptySrcDir(path);
                 }
             } else {
-                moveFile(path, defaultDromblerId, photoStorage, videoStorage);
+                moveFile(path, defaultDromblerId, photoStorage, videoStorage, false);
             }
         } catch (IOException ex) {
-            Logger.getLogger(AbstractMediaOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("Error during moving file!", ex);
         }
     }
 
-    private void moveFile(Path filePath, DromblerId dromblerId, PhotoStorage photoStorage, VideoStorage videoStorage) throws IOException {
+    private void moveFile(Path filePath, DromblerId dromblerId, PhotoStorage photoStorage, VideoStorage videoStorage, boolean uncategorized) throws IOException {
         Event event = getFirstEvent(directories ? filePath.getParent() : filePath);
-        Path photoDir = photoStorage.getMediaEventDirPath(event, dromblerId);
+        Path photoDir = photoStorage.getMediaEventDirPath(event, dromblerId, uncategorized);
 //        System.out.println("dst: "+photoDir);
-        Path videoDir = videoStorage.getMediaEventDirPath(event, dromblerId);
+        Path videoDir = videoStorage.getMediaEventDirPath(event, dromblerId, uncategorized);
 //        System.out.println("dst: "+videoDir);
-        System.out.println("src: "+filePath);
+        LOGGER.debug("src: " + filePath);
         try {
             if (photoStorage.isSupportedByFileExtension(filePath.getFileName().toString())) {
                 moveFile(filePath, photoDir);
@@ -136,7 +137,7 @@ public abstract class AbstractMediaOrganizer {
                 moveFile(filePath, videoDir);
             }
         } catch (IOException ex) {
-            Logger.getLogger(AbstractMediaOrganizer.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("Error during moving file!", ex);
         }
     }
 
