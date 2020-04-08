@@ -7,7 +7,6 @@ package org.drombler.media.core.video;
 
 import java.nio.file.Path;
 import org.drombler.media.core.AbstractMediaStorage;
-import org.drombler.media.core.MediaSource;
 
 /**
  *
@@ -15,8 +14,8 @@ import org.drombler.media.core.MediaSource;
  */
 public class VideoStorage extends AbstractMediaStorage<VideoSource> {
 
-    public VideoStorage(Path mediaParentDirPath) {
-        super(mediaParentDirPath.resolve("video"));
+    public VideoStorage(String name, Path mediaRootDir) {
+        super(name, mediaRootDir);
     }
 
     @Override

@@ -14,8 +14,8 @@ import org.drombler.media.core.AbstractMediaStorage;
  */
 public class PhotoStorage extends AbstractMediaStorage<PhotoSource> {
 
-    public PhotoStorage(Path mediaParentDirPath) {
-        super(mediaParentDirPath.resolve("photo"), ".jpg", ".png");
+    public PhotoStorage(String name, Path mediaRootDir) {
+        super(name, mediaRootDir, ".jpg", ".png");
     }
 
     @Override

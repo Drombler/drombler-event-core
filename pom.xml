@@ -11,7 +11,8 @@
     <artifactId>drombler-media-core</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
-   
+    
+    <inceptionYear>2020</inceptionYear>
     
     <build>
         <plugins>

@@ -9,14 +9,13 @@ import org.drombler.identity.core.DromblerIdentityProviderManager;
 
 public interface MediaStorage<M extends MediaSource<M>> {
 
+    Path getMediaRootDir();
+    
+    String getName();
+    
     Path getMediaEventDirPath(Event event, DromblerId dromblerId, boolean uncategorized);
 
-    /**
-     * @return the mediaRootDir
-     */
-    Path getMediaRootDir();
-
-    List<M> getMediaSources(DromblerIdentityProviderManager dromblerIdentityProviderManager) throws IOException;
+    List<M> readMediaSources(DromblerIdentityProviderManager dromblerIdentityProviderManager) throws IOException;
 
     Path getUncategorizedMediaRootDir();
 
