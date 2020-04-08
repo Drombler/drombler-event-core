@@ -24,6 +24,8 @@ import org.drombler.identity.core.DromblerUserId;
 public class SamsungMobileMediaOrganizer extends AbstractMediaOrganizer {
 
     public static void main(String[] args) throws IOException {
+        initLogger();
+
         Path baseDirPath = Paths.get("\\\\diskstation\\photo\\Puce-Mobile");
 
         DromblerId defaultDromblerId = new DromblerUserId("puce");

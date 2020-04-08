@@ -9,7 +9,16 @@ package org.drombler.identity.core;
  *
  * @author Florian
  */
-public class PrivateDromblerIdProvider implements DromblerIdentityProvider{
+public class PrivateDromblerIdProvider implements DromblerIdentityProvider {
+
+    private static final PrivateDromblerIdProvider INSTANCE = new PrivateDromblerIdProvider();
+
+    private PrivateDromblerIdProvider() {
+    }
+
+    public static final PrivateDromblerIdProvider getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public String getDromblerIdentityProviderId() {
@@ -20,5 +29,10 @@ public class PrivateDromblerIdProvider implements DromblerIdentityProvider{
     public boolean isPrivate() {
         return true;
     }
-    
+
+    @Override
+    public String toString() {
+        return "PrivateDromblerIdProvider{" + '}';
+    }
+
 }
