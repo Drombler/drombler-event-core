@@ -5,11 +5,15 @@
  */
 package org.drombler.event.core;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.drombler.identity.core.DromblerId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +29,8 @@ public class Event {
     private final UUID id;
     private final String name;
     private final EventDuration duration;
+    private final Set<DromblerId> participants = new HashSet<>();
+    private final Set<DromblerId> unmodifiableParticipants = Collections.unmodifiableSet(participants);
 
     public Event(UUID id, String name, EventDuration duration) {
         this.id = id;
@@ -48,6 +54,18 @@ public class Event {
      */
     public EventDuration getDuration() {
         return duration;
+    }
+
+    public boolean addParticipant(DromblerId participant) {
+        return participants.add(participant);
+    }
+
+    public boolean removeParticipant(DromblerId participant) {
+        return participants.remove(participant);
+    }
+
+    public Set<DromblerId> getParticipants() {
+        return unmodifiableParticipants;
     }
 
     @Override

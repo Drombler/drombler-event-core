@@ -2,32 +2,43 @@ package org.drombler.media.core;
 
 import java.nio.file.Path;
 import org.drombler.event.core.Event;
+import org.drombler.identity.core.DromblerId;
 
 /**
  *
  * @author Florian
- * @param <S>
+ * @param <M>
  */
-public abstract class AbstractMediaSource<S extends MediaStorage> implements MediaSource<S> {
+public abstract class AbstractMediaSource<M extends MediaSource<M>> implements MediaSource<M> {
 
-    private final S mediaStorage;
-    private final Path mediaPath;
+    private final MediaStorage<M> mediaStorage;
+    private final Path fileName;
     
     private Event event;
+    private DromblerId copyrightOwner;
 
-    public AbstractMediaSource(S mediaStorage, Path mediaPath) {
+    public AbstractMediaSource(MediaStorage<M> mediaStorage, Path fileName) {
         this.mediaStorage = mediaStorage;
-        this.mediaPath = mediaPath;
+        this.fileName = fileName;
     }
 
     @Override
-    public Path getMediaPath() {
-        return mediaPath;
+    public Path getFileName() {
+        return fileName;
     }
 
     @Override
-    public S getMediaStorage() {
+    public MediaStorage<M> getMediaStorage() {
         return mediaStorage;
+    }
+
+    @Override
+    public DromblerId getCopyrightOwner() {
+        return copyrightOwner;
+    }
+
+    public void setCopyrightOwner(DromblerId copyrightOwner) {
+        this.copyrightOwner = copyrightOwner;
     }
 
     @Override

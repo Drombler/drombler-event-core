@@ -7,10 +7,10 @@ import org.drombler.media.core.*;
  *
  * @author Florian
  */
-public class PhotoSource extends AbstractMediaSource<PhotoStorage>{
+public class PhotoSource extends AbstractMediaSource<PhotoSource>{
     
-    public PhotoSource(PhotoStorage photoStorage, Path mediaPath) {
-        super(photoStorage, mediaPath);
+    public PhotoSource(PhotoStorage photoStorage, Path fileName) {
+        super(photoStorage, fileName);
     }
     
 }
