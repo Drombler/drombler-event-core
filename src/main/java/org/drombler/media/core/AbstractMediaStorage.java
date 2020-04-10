@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.drombler.event.core.Event;
 import org.drombler.event.core.format.EventDirNameFormatter;
 import org.drombler.event.core.format.EventDirNameParser;
@@ -35,6 +37,7 @@ public abstract class AbstractMediaStorage<M extends MediaSource<M>> implements 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMediaStorage.class);
 
     private static final String UNCATEGORIZED_DIR_NAME = "uncategorized"; // used before imports (only?), e.g. D:/hd-writer-ae-tmp/video/uncategorized
+    private static final Pattern DIR_PATTERN = Pattern.compile("^(\\w-)?+(.*)");
 
     private final Path mediaRootDir;
     private final Set<String> supportedExtensions;
@@ -101,7 +104,7 @@ public abstract class AbstractMediaStorage<M extends MediaSource<M>> implements 
     @Override
     public List<M> readMediaSources(DromblerIdentityProviderManager dromblerIdentityProviderManager) throws IOException {
         List<M> mediaSources = new ArrayList<>();
-        try ( DirectoryStream<Path> eventDirPathStream = Files.newDirectoryStream(getMediaRootDir())) {
+        try (DirectoryStream<Path> eventDirPathStream = Files.newDirectoryStream(getMediaRootDir())) {
             for (Path eventDirPath : eventDirPathStream) {
                 addMediaSources(mediaSources, eventDirPath, dromblerIdentityProviderManager);
             }
@@ -111,35 +114,53 @@ public abstract class AbstractMediaStorage<M extends MediaSource<M>> implements 
 
     private void addMediaSources(List<M> mediaSources, Path eventDirPath, DromblerIdentityProviderManager dromblerIdentityProviderManager) throws IOException {
         if (Files.isDirectory(eventDirPath)) {
-            try {
-                Event event = parseEvent(eventDirPath.getFileName().toString());
-                try ( DirectoryStream<Path> eventCopyrightOwnerDirPathStream = Files.newDirectoryStream(eventDirPath)) {
-                    boolean noCopyrightOwnerWarningLogged = false;
-                    for (Path eventCopyrightOwnerDirPath : eventCopyrightOwnerDirPathStream) {
-                        if (Files.isDirectory(eventCopyrightOwnerDirPath)) {
-                            addMediaSources(mediaSources, event, eventCopyrightOwnerDirPath, dromblerIdentityProviderManager);
-                        } else {
-                            if (!noCopyrightOwnerWarningLogged) {
-                                LOGGER.warn("Some media source have no assigned copyright owner in eventDirPath: " + eventDirPath);
-                                // log only once
-                                noCopyrightOwnerWarningLogged = true;
-                            }
-                            Path mediaSourcePath = eventCopyrightOwnerDirPath;
-                            addMediaSource(mediaSources, event, null, mediaSourcePath);
-                        }
+            Matcher matcher = DIR_PATTERN.matcher(eventDirPath.getFileName().toString());
+            if (matcher.find()) {
+                String prefix = matcher.group(1);
+                String eventDirName = matcher.group(2);
+                if (prefix == null
+                        || prefix.equals("A-") // Andere
+                        || prefix.equals("P-")) { // Privat
+                    try {
+                        Event event = parseEvent(eventDirName);
+                        addMediaSources(eventDirPath, mediaSources, event, dromblerIdentityProviderManager);
+                    } catch (ParseException ex) {
+                        LOGGER.error("Could not parse: " + eventDirPath, ex);
+                    }
+                } else {
+                    if (!prefix.equals("G-") // Geschäft
+                            && !prefix.equals("X-")) { // Photos von Dingen
+                        LOGGER.error("Unknown event dir prefix in event dir name: {}", eventDirName);
                     }
                 }
-            } catch (ParseException ex) {
-                LOGGER.error(ex.getMessage(), ex);
+            } else {
+                LOGGER.warn("Event directory expected: {}", eventDirPath);
             }
-        } else {
-            LOGGER.warn("Event directory expected: " + eventDirPath);
+        }
+    }
+
+    private void addMediaSources(Path eventDirPath, List<M> mediaSources, Event event, DromblerIdentityProviderManager dromblerIdentityProviderManager) throws IOException {
+        try (DirectoryStream<Path> eventCopyrightOwnerDirPathStream = Files.newDirectoryStream(eventDirPath)) {
+            boolean noCopyrightOwnerWarningLogged = false;
+            for (Path eventCopyrightOwnerDirPath : eventCopyrightOwnerDirPathStream) {
+                if (Files.isDirectory(eventCopyrightOwnerDirPath)) {
+                    addMediaSources(mediaSources, event, eventCopyrightOwnerDirPath, dromblerIdentityProviderManager);
+                } else {
+                    if (!noCopyrightOwnerWarningLogged) {
+                        LOGGER.warn("Some media source have no assigned copyright owner in eventDirPath: {}", eventDirPath);
+                        // log only once
+                        noCopyrightOwnerWarningLogged = true;
+                    }
+                    Path mediaSourcePath = eventCopyrightOwnerDirPath;
+                    addMediaSource(mediaSources, event, null, mediaSourcePath);
+                }
+            }
         }
     }
 
     private void addMediaSources(List<M> mediaSources, Event event, Path eventCopyrightOwnerDirPath, DromblerIdentityProviderManager dromblerIdentityProviderManager) throws IOException {
         DromblerUserId copyrightOwner = parseCopyrightOwner(eventCopyrightOwnerDirPath.getFileName().toString(), dromblerIdentityProviderManager);
-        try ( DirectoryStream<Path> mediaSourcePathStream = Files.newDirectoryStream(eventCopyrightOwnerDirPath)) {
+        try (DirectoryStream<Path> mediaSourcePathStream = Files.newDirectoryStream(eventCopyrightOwnerDirPath)) {
             for (Path mediaSourcePath : mediaSourcePathStream) {
                 addMediaSource(mediaSources, event, copyrightOwner, mediaSourcePath);
             }
