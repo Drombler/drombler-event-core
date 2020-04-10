@@ -1,4 +1,4 @@
-# drombler-media-importer
+# Drombler Media - Core
 
 
 ## Build the project from sources

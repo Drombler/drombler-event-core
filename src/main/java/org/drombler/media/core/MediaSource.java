@@ -3,6 +3,7 @@ package org.drombler.media.core;
 import java.nio.file.Path;
 import org.drombler.event.core.Event;
 import org.drombler.identity.core.DromblerId;
+import org.softsmithy.lib.text.FormatException;
 
 /**
  *
@@ -15,8 +16,8 @@ public interface MediaSource<M extends MediaSource<M>> {
 
     Path getFileName();
 
-    default Path getPath() {
-        return getMediaStorage().getMediaEventDirPath(getEvent(), getCopyrightOwner(), false)
+    default Path getPath() throws FormatException {
+        return getMediaStorage().resolveMediaEventDirPath(getEvent(), getCopyrightOwner(), false)
                 .resolve(getFileName());
     }
 

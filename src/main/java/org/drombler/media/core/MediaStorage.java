@@ -6,6 +6,7 @@ import java.util.List;
 import org.drombler.event.core.Event;
 import org.drombler.identity.core.DromblerId;
 import org.drombler.identity.core.DromblerIdentityProviderManager;
+import org.softsmithy.lib.text.FormatException;
 
 public interface MediaStorage<M extends MediaSource<M>> {
 
@@ -13,7 +14,7 @@ public interface MediaStorage<M extends MediaSource<M>> {
     
     String getName();
     
-    Path getMediaEventDirPath(Event event, DromblerId dromblerId, boolean uncategorized);
+    Path resolveMediaEventDirPath(Event event, DromblerId dromblerId, boolean uncategorized) throws FormatException;
 
     List<M> readMediaSources(DromblerIdentityProviderManager dromblerIdentityProviderManager) throws IOException;
 

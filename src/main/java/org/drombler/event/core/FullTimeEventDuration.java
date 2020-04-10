@@ -6,23 +6,26 @@
 package org.drombler.event.core;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.regex.Pattern;
+import org.drombler.event.core.format.FullTimeEventDurationDirNameFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.softsmithy.lib.text.FormatException;
 
 /**
  *
  * @author Florian
  */
 public class FullTimeEventDuration implements EventDuration {
+
     private static final Logger LOG = LoggerFactory.getLogger(FullTimeEventDuration.class);
 
-    private static final String MONTH_APPENDIX = "00";
-    private static final DateTimeFormatter SINGLE_DAY_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
-    private static final Pattern DATE_PATTERN = Pattern.compile("\\d{8}");
+//    private static final String MONTH_APPENDIX = "00";
+//    private static final DateTimeFormatter SINGLE_DAY_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+//    private static final Pattern DATE_PATTERN = Pattern.compile("\\d{8}");
+//    private static final String DATE_DELIMITER = "-";
+//    private static final TemporalAccessorParser DATE_PARSER = new TemporalAccessorParser(SINGLE_DAY_FORMATTER);
+    private static final FullTimeEventDurationDirNameFormatter DIR_NAME_FORMATTER = new FullTimeEventDurationDirNameFormatter();
 
     private final LocalDate startDateInclusive;
     private final LocalDate endDateInclusive;
@@ -33,20 +36,13 @@ public class FullTimeEventDuration implements EventDuration {
     }
 
     @Override
-    public String getDirName() {
-        return isSingleDay() ? getSingleDayDirName() : getPeriodDirName();
+    public Appendable formatDirName(Appendable appendable) throws FormatException {
+        DIR_NAME_FORMATTER.format(this, appendable);
+        return appendable;
     }
 
     public boolean isSingleDay() {
         return getStartDateInclusive().equals(getEndDateInclusive());
-    }
-
-    private String getSingleDayDirName() {
-        return SINGLE_DAY_FORMATTER.format(getStartDateInclusive());
-    }
-
-    private String getPeriodDirName() {
-        return SINGLE_DAY_FORMATTER.format(getStartDateInclusive()) + "-" + SINGLE_DAY_FORMATTER.format(getEndDateInclusive());
     }
 
     @Override
@@ -87,29 +83,5 @@ public class FullTimeEventDuration implements EventDuration {
      */
     public LocalDate getEndDateInclusive() {
         return endDateInclusive;
-    }
-
-    public static Optional<FullTimeEventDuration> singleDay(String dirName) {
-        if (matches(dirName)) {
-            final LocalDate date = SINGLE_DAY_FORMATTER.parse(dirName, LocalDate::from);
-            return Optional.of(new FullTimeEventDuration(date, date));
-        } else {
-            LOG.warn("Could not parse duration for: " + dirName);
-            return Optional.empty();
-        }
-    }
-
-    private static boolean matches(String dirName) {
-        return DATE_PATTERN.matcher(dirName).matches() && !dirName.endsWith(MONTH_APPENDIX);
-    }
-
-    public static Optional<FullTimeEventDuration> period(String startDateInclusiveString, String endDateInclusiveString) {
-        if (matches(startDateInclusiveString) && matches(endDateInclusiveString)) {
-            final LocalDate startDateInclusive = SINGLE_DAY_FORMATTER.parse(startDateInclusiveString, LocalDate::from);
-            final LocalDate endDateInclusive = SINGLE_DAY_FORMATTER.parse(endDateInclusiveString, LocalDate::from);
-            return Optional.of(new FullTimeEventDuration(startDateInclusive, endDateInclusive));
-        } else {
-            return Optional.empty();
-        }
     }
 }

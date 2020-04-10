@@ -37,6 +37,7 @@ public abstract class AbstractMediaSource<M extends MediaSource<M>> implements M
         return copyrightOwner;
     }
 
+    @Override
     public void setCopyrightOwner(DromblerId copyrightOwner) {
         this.copyrightOwner = copyrightOwner;
     }
@@ -46,6 +47,7 @@ public abstract class AbstractMediaSource<M extends MediaSource<M>> implements M
         return event;
     }
 
+    @Override
     public void setEvent(Event event) {
         this.event = event;
     }
