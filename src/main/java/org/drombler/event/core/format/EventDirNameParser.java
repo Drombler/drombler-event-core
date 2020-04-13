@@ -23,9 +23,9 @@ public class EventDirNameParser extends AbstractParser<Event> {
     private static final Logger LOG = LoggerFactory.getLogger(EventDirNameParser.class);
 
     private static final List<EventDurationFormatterParserPair<?>> KNOWN_EVENT_DURATION_DIR_NAME_FORMATTER_PARSERS = Arrays.asList(
-            new EventDurationFormatterParserPair(new FullTimeEventDurationDirNameFormatter(), new FullTimeEventDurationDirNameParser()),
-            new EventDurationFormatterParserPair(new MonthEventDurationDirNameFormatter(), new MonthEventDurationDirNameParser()),
-            new EventDurationFormatterParserPair(new YearEventDurationDirNameFormatter(), new YearEventDurationDirNameParser())
+            new EventDurationFormatterParserPair<>(new FullTimeEventDurationDirNameFormatter(), new FullTimeEventDurationDirNameParser()),
+            new EventDurationFormatterParserPair<>(new MonthEventDurationDirNameFormatter(), new MonthEventDurationDirNameParser()),
+            new EventDurationFormatterParserPair<>(new YearEventDurationDirNameFormatter(), new YearEventDurationDirNameParser())
     );
 
     @Override
