@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.util.List;
 import org.drombler.event.core.Event;
 import org.drombler.identity.core.DromblerId;
-import org.drombler.identity.core.DromblerIdentityProviderManager;
+import org.drombler.identity.management.DromblerIdentityProviderManager;
 import org.softsmithy.lib.text.FormatException;
 
 public interface MediaStorage<M extends MediaSource<M>> {

@@ -5,6 +5,7 @@
  */
 package org.drombler.identity.core;
 
+import org.drombler.identity.management.DromblerIdentityProviderManager;
 import java.util.Objects;
 
 /**

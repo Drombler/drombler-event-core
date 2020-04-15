@@ -15,7 +15,6 @@ import org.softsmithy.lib.time.format.TemporalAccessorParser;
  *
  * @author Florian
  */
-@Deprecated
 public class YearEventDurationDirNameParser extends AbstractrEventDurationDirNameParser<YearEventDuration> {
 
     private static final Logger LOG = LoggerFactory.getLogger(YearEventDurationDirNameParser.class);

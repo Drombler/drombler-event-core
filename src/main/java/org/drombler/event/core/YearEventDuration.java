@@ -9,7 +9,6 @@ import org.softsmithy.lib.text.FormatException;
  *
  * @author Florian
  */
-@Deprecated
 public class YearEventDuration implements EventDuration {
 
     private static final YearEventDurationDirNameFormatter DIR_NAME_FORMATTER = new YearEventDurationDirNameFormatter();

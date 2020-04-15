@@ -12,7 +12,6 @@ import org.softsmithy.lib.time.format.TemporalAccessorFormatter;
  *
  * @author Florian
  */
-@Deprecated
 public class MonthEventDurationDirNameFormatter extends AbstractFormatter<MonthEventDuration> {
 
     public static final DateTimeFormatter MONTH_FORMATTER = DateTimeFormatter.ofPattern("yyyyMM'00'");

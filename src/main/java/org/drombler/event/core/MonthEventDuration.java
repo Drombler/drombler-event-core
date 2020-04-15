@@ -9,7 +9,6 @@ import org.softsmithy.lib.text.FormatException;
  *
  * @author Florian
  */
-@Deprecated
 public class MonthEventDuration implements EventDuration {
 
 //    private static final String MONTH_APPENDIX = "00";

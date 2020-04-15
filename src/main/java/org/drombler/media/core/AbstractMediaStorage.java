@@ -21,7 +21,7 @@ import org.drombler.event.core.Event;
 import org.drombler.event.core.format.EventDirNameFormatter;
 import org.drombler.event.core.format.EventDirNameParser;
 import org.drombler.identity.core.DromblerId;
-import org.drombler.identity.core.DromblerIdentityProviderManager;
+import org.drombler.identity.management.DromblerIdentityProviderManager;
 import org.drombler.identity.core.DromblerUserId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

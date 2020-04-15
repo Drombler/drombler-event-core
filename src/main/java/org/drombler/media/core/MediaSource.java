@@ -16,7 +16,7 @@ public interface MediaSource<M extends MediaSource<M>> {
 
     Path getFileName();
 
-    default Path getPath() throws FormatException {
+    default Path getPath() throws FormatException { // TODO: avoid FormatException here?
         return getMediaStorage().resolveMediaEventDirPath(getEvent(), getCopyrightOwner(), false)
                 .resolve(getFileName());
     }

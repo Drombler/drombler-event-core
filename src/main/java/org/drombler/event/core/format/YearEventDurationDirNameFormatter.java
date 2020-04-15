@@ -12,7 +12,6 @@ import org.softsmithy.lib.time.format.TemporalAccessorFormatter;
  *
  * @author Florian
  */
-@Deprecated
 public class YearEventDurationDirNameFormatter extends AbstractFormatter<YearEventDuration> {
 
     public static final DateTimeFormatter YEAR_FORMATTER = DateTimeFormatter.ofPattern("yyyy'0000'");

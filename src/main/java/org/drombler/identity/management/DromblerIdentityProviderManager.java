@@ -1,7 +1,8 @@
-package org.drombler.identity.core;
+package org.drombler.identity.management;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.drombler.identity.core.DromblerIdentityProvider;
 
 /**
  *
@@ -12,11 +13,15 @@ public class DromblerIdentityProviderManager {
     private final Map<String, DromblerIdentityProvider> dromblerIdentityProviders = new HashMap<>();
 
     public DromblerIdentityProvider registerDromblerIdentityProvider(DromblerIdentityProvider dromblerIdentityProvider) {
-        return dromblerIdentityProviders.put(dromblerIdentityProvider.getDromblerIdentityProviderId(), dromblerIdentityProvider);
+        synchronized (dromblerIdentityProviders) {
+            return dromblerIdentityProviders.put(dromblerIdentityProvider.getDromblerIdentityProviderId(), dromblerIdentityProvider);
+        }
     }
 
     public DromblerIdentityProvider getDromblerIdentityProvider(String dromblerIdentityProviderId) {
-        return dromblerIdentityProviders.get(dromblerIdentityProviderId);
+        synchronized (dromblerIdentityProviders) {
+            return dromblerIdentityProviders.get(dromblerIdentityProviderId);
+        }
     }
 
 }

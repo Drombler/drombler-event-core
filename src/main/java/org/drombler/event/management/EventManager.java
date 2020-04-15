@@ -1,25 +1,9 @@
 package org.drombler.event.management;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
 import org.drombler.event.core.Event;
-import org.drombler.event.core.EventDuration;
-import org.drombler.event.core.FullTimeEventDuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,10 +15,11 @@ public class EventManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(EventManager.class);
 
-    private final Map<LocalDate, SortedSet<Event>> events = new HashMap<>();
+//    private final Map<LocalDate, SortedSet<Event>> events = new HashMap<>();
 //    private final Comparator<EventDuration> eventDurationComparator = new ImportEventDurationComparator();
 //    private final Comparator<Event> eventComparator = Comparator.comparing(Event::getDuration, eventDurationComparator)
 //            .thenComparing(Event::getName);
+    private final List<Event> events = new ArrayList<>();
 
     public EventManager() throws IOException {
 //        try (BufferedReader br = new BufferedReader(new InputStreamReader(EventManager.class.getResourceAsStream("media-event-dir-paths.txt"), Charset.forName("UTF-8")))) {
@@ -42,6 +27,18 @@ public class EventManager {
 //                    .map(Paths::get)
 //                    .forEach(this::updateEventMap);
 //        }
+    }
+
+    public boolean addEvent(Event event) {
+        synchronized (events) {
+            return events.add(event);
+        }
+    }
+
+    public boolean removeEvent(Event event) {
+        synchronized (events) {
+            return events.remove(event);
+        }
     }
 
 //    public void updateEventMap(Path basePath) {
