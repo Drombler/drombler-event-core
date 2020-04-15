@@ -8,24 +8,46 @@ import org.softsmithy.lib.text.FormatException;
 /**
  *
  * @author Florian
- * @param <M>
  */
-public interface MediaSource<M extends MediaSource<M>> {
+public class MediaSource {
 
-    MediaStorage<M> getMediaStorage();
-
-    Path getFileName();
-
-    default Path getPath() throws FormatException { // TODO: avoid FormatException here?
+    public Path getPath() throws FormatException { // TODO: avoid FormatException here?
         return getMediaStorage().resolveMediaEventDirPath(getEvent(), getCopyrightOwner(), false)
                 .resolve(getFileName());
     }
 
-    Event getEvent();
+    private final MediaStorage mediaStorage;
+    private final Path fileName;
 
-    void setEvent(Event event);
+    private Event event;
+    private DromblerId copyrightOwner;
 
-    DromblerId getCopyrightOwner();
+    public MediaSource(MediaStorage mediaStorage, Path fileName) {
+        this.mediaStorage = mediaStorage;
+        this.fileName = fileName;
+    }
 
-    void setCopyrightOwner(DromblerId copyrightOwner);
+    public Path getFileName() {
+        return fileName;
+    }
+
+    public MediaStorage getMediaStorage() {
+        return mediaStorage;
+    }
+
+    public DromblerId getCopyrightOwner() {
+        return copyrightOwner;
+    }
+
+    public void setCopyrightOwner(DromblerId copyrightOwner) {
+        this.copyrightOwner = copyrightOwner;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
 }
