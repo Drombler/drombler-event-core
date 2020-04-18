@@ -1,5 +1,8 @@
 package org.drombler.event.core;
 
+import java.io.IOException;
+import org.softsmithy.lib.text.FormatException;
+
 /**
  *
  * @author Florian
@@ -16,9 +19,14 @@ public class InfiniteEventDuration implements EventDuration{
         return INSTANCE;
     }
     
+
     @Override
-    public String getDirName() {
-        return "infinite";
+    public Appendable formatDirName(Appendable appendable) throws FormatException {
+        try {
+            return appendable.append("infinite");
+        } catch (IOException ex) {
+           throw new FormatException(ex.getMessage(), ex);
+        }
     }
     
 }

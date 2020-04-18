@@ -1,8 +1,0 @@
-{
-  "$id": "http://www.drombler.org/drombler-media-core/Definitions.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "definitions": {
-   
-  }
-}

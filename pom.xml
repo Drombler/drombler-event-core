@@ -7,8 +7,8 @@
         <version>3.3.1</version>
         <relativePath />
     </parent>
-    <groupId>org.drombler.media</groupId>
-    <artifactId>drombler-media-core</artifactId>
+    <groupId>org.drombler.event</groupId>
+    <artifactId>drombler-event-core</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     
@@ -21,27 +21,15 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
             </plugin>
-            <plugin>
-                <groupId>org.jsonschema2pojo</groupId>
-                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-                <configuration>
-                    <sourceDirectory>${basedir}/src/main/resources/org/drombler/media/management/config/model/json</sourceDirectory>
-                    <targetPackage>org.drombler.media.management.config.model.json</targetPackage>
-                    <dateType>java.time.LocalDate</dateType>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>generate-json-pojos</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
     
     <dependencies>
+        <dependency>
+            <groupId>org.drombler.identity</groupId>
+            <artifactId>drombler-identity-core</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -56,15 +44,5 @@
             <artifactId>softsmithy-lib-time</artifactId>
         </dependency>
         
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.9</version>
-            <type>jar</type>
-        </dependency>
     </dependencies>
 </project>
