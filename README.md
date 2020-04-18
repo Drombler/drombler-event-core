@@ -1,4 +1,4 @@
-# Drombler Media - Core
+# Drombler Event - Core
 
 
 ## Build the project from sources
