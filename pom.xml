@@ -21,6 +21,23 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
             </plugin>
+             <plugin>
+                <groupId>org.jsonschema2pojo</groupId>
+                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+                <configuration>
+                    <sourceDirectory>${basedir}/src/main/resources/org/drombler/event/core/protocol/json</sourceDirectory>
+                    <targetPackage>org.drombler.event.core.protocol.json</targetPackage>
+                    <dateType>java.time.LocalDate</dateType>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-json-pojos</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     
@@ -43,6 +60,9 @@
             <groupId>org.softsmithy.lib</groupId>
             <artifactId>softsmithy-lib-time</artifactId>
         </dependency>
-        
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
     </dependencies>
 </project>
