@@ -12,7 +12,7 @@ import org.softsmithy.lib.time.format.TemporalAccessorParser;
  *
  * @author Florian
  */
-public class AllDayEventDurationDirNameParser extends AbstractrEventDurationDirNameParser<AllDayEventDuration> {
+public class AllDayEventDurationDirNameParser extends AbstractEventDurationDirNameParser<AllDayEventDuration> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AllDayEventDurationDirNameParser.class);
 

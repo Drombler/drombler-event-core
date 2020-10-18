@@ -15,7 +15,7 @@ import org.softsmithy.lib.time.format.TemporalAccessorParser;
  *
  * @author Florian
  */
-public class MonthEventDurationDirNameParser extends AbstractrEventDurationDirNameParser<MonthEventDuration> {
+public class MonthEventDurationDirNameParser extends AbstractEventDurationDirNameParser<MonthEventDuration> {
 
     private static final Logger LOG = LoggerFactory.getLogger(MonthEventDurationDirNameParser.class);
 
