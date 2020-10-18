@@ -5,20 +5,22 @@
  */
 package org.drombler.event.core;
 
-import java.time.LocalDate;
-import java.util.Objects;
+import lombok.*;
 import org.drombler.event.core.format.AllDayEventDurationDirNameFormatter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.softsmithy.lib.text.FormatException;
+
+import java.time.LocalDate;
 
 /**
  *
  * @author Florian
  */
+@Getter
+@Setter
+@RequiredArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class AllDayEventDuration implements EventDuration {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AllDayEventDuration.class);
 
 //    private static final String MONTH_APPENDIX = "00";
 //    private static final DateTimeFormatter SINGLE_DAY_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -30,11 +32,6 @@ public class AllDayEventDuration implements EventDuration {
     private final LocalDate startDateInclusive;
     private final LocalDate endDateInclusive;
 
-    public AllDayEventDuration(LocalDate startDateInclusive, LocalDate endDateInclusive) {
-        this.startDateInclusive = startDateInclusive;
-        this.endDateInclusive = endDateInclusive;
-    }
-
     @Override
     public Appendable formatDirName(Appendable appendable) throws FormatException {
         DIR_NAME_FORMATTER.format(this, appendable);
@@ -45,43 +42,4 @@ public class AllDayEventDuration implements EventDuration {
         return getStartDateInclusive().equals(getEndDateInclusive());
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.startDateInclusive);
-        hash = 53 * hash + Objects.hashCode(this.endDateInclusive);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof AllDayEventDuration)) {
-            return false;
-        }
-        final AllDayEventDuration other = (AllDayEventDuration) obj;
-        return Objects.equals(this.startDateInclusive, other.startDateInclusive)
-                && Objects.equals(this.endDateInclusive, other.endDateInclusive);
-    }
-
-    @Override
-    public String toString() {
-        return "AllDayEventDuration{" + "startDateInclusive=" + startDateInclusive + ", endDateInclusive=" + endDateInclusive + '}';
-    }
-
-    /**
-     * @return the startDateInclusive
-     */
-    public LocalDate getStartDateInclusive() {
-        return startDateInclusive;
-    }
-
-    /**
-     * @return the endDateInclusive
-     */
-    public LocalDate getEndDateInclusive() {
-        return endDateInclusive;
-    }
 }
