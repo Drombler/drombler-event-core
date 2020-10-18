@@ -1,7 +1,10 @@
 package org.drombler.event.core;
 
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.softsmithy.lib.text.FormatException;
+
+import java.io.IOException;
 
 /**
  *
@@ -9,12 +12,17 @@ import org.softsmithy.lib.text.FormatException;
  */
 
 // not used yet
-public class InfiniteEventDuration implements EventDuration{
+@JsonPropertyOrder({
+        "type"
+})
+public class InfiniteEventDuration extends AbstractEventDuration{
     private static final InfiniteEventDuration INSTANCE = new InfiniteEventDuration();
     
     private InfiniteEventDuration(){
+        super(EventDurationType.INFINITE);
     }
 
+    @JsonCreator
     private static final InfiniteEventDuration getInstance(){
         return INSTANCE;
     }
