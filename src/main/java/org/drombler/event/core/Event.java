@@ -5,7 +5,6 @@
  */
 package org.drombler.event.core;
 
-import lombok.*;
 import org.drombler.identity.core.DromblerId;
 
 import java.util.Set;

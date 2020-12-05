@@ -1,13 +1,11 @@
 package org.drombler.event.core;
 
-import lombok.*;
 import org.drombler.event.core.format.MonthEventDurationDirNameFormatter;
 import org.softsmithy.lib.text.FormatException;
 
 import java.time.YearMonth;
 
 /**
- *
  * @author Florian
  */
 @Getter

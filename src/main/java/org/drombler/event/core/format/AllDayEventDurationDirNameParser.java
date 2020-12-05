@@ -1,15 +1,16 @@
 package org.drombler.event.core.format;
 
-import java.text.ParseException;
-import java.time.LocalDate;
 import org.drombler.event.core.AllDayEventDuration;
-import static org.drombler.event.core.format.AllDayEventDurationDirNameFormatter.SINGLE_DAY_FORMATTER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.softsmithy.lib.time.format.TemporalAccessorParser;
 
+import java.text.ParseException;
+import java.time.LocalDate;
+
+import static org.drombler.event.core.format.AllDayEventDurationDirNameFormatter.SINGLE_DAY_FORMATTER;
+
 /**
- *
  * @author Florian
  */
 public class AllDayEventDurationDirNameParser extends AbstractEventDurationDirNameParser<AllDayEventDuration> {
@@ -20,7 +21,7 @@ public class AllDayEventDurationDirNameParser extends AbstractEventDurationDirNa
 
     /**
      * Parses:
-     * 
+     *
      * yyyyMMdd-<event-dir-name>
      * and
      * yyyyMMdd-yyyyMMdd-<event-dir-name>

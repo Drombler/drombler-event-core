@@ -5,14 +5,12 @@
  */
 package org.drombler.event.core;
 
-import lombok.*;
 import org.drombler.event.core.format.AllDayEventDurationDirNameFormatter;
 import org.softsmithy.lib.text.FormatException;
 
 import java.time.LocalDate;
 
 /**
- *
  * @author Florian
  */
 @Getter
