@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import static org.drombler.event.core.EventDurationType.ALL_DAY;
 
 /**
- *
  * @author Florian
  */
 @JsonPropertyOrder({

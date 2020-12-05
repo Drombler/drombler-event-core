@@ -1,9 +1,11 @@
 package org.drombler.event.core.format;
 
-import java.text.ParseException;
 import org.drombler.event.core.EventDuration;
-import static org.drombler.event.core.format.EventDirNameFormatter.EVENT_DURATION_DELIMITER;
 import org.softsmithy.lib.text.AbstractParser;
+
+import java.text.ParseException;
+
+import static org.drombler.event.core.format.EventDirNameFormatter.EVENT_DURATION_DELIMITER;
 
 public abstract class AbstractEventDurationDirNameParser<E extends EventDuration> extends AbstractParser<E> {
 

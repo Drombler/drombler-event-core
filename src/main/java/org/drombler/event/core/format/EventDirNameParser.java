@@ -17,7 +17,6 @@ import static org.drombler.event.core.format.EventDirNameFormatter.EVENT_DURATIO
 import static org.drombler.event.core.format.EventDirNameFormatter.NON_WORD_CHARACTER_REPLACEMENT_CHARACTER;
 
 /**
- *
  * @author Florian
  */
 public class EventDirNameParser extends AbstractParser<Event> {

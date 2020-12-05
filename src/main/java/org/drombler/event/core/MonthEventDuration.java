@@ -15,7 +15,6 @@ import java.time.YearMonth;
 import static org.drombler.event.core.EventDurationType.MONTH;
 
 /**
- *
  * @author Florian
  */
 @JsonPropertyOrder({

@@ -15,7 +15,6 @@ import java.time.Year;
 import static org.drombler.event.core.EventDurationType.YEAR;
 
 /**
- *
  * @author Florian
  */
 @JsonPropertyOrder({
