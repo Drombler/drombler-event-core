@@ -1,12 +1,7 @@
 package org.drombler.event.core.format;
 
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.List;
 import org.drombler.event.core.Event;
 import org.drombler.event.core.EventDuration;
-import static org.drombler.event.core.format.EventDirNameFormatter.EVENT_DURATION_DELIMITER;
-import static org.drombler.event.core.format.EventDirNameFormatter.NON_WORD_CHARACTER_REPLACEMENT_CHARACTER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.softsmithy.lib.text.AbstractParser;
@@ -14,8 +9,14 @@ import org.softsmithy.lib.text.FormatException;
 import org.softsmithy.lib.text.Formatter;
 import org.softsmithy.lib.text.Parser;
 
+import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.drombler.event.core.format.EventDirNameFormatter.EVENT_DURATION_DELIMITER;
+import static org.drombler.event.core.format.EventDirNameFormatter.NON_WORD_CHARACTER_REPLACEMENT_CHARACTER;
+
 /**
- *
  * @author Florian
  */
 public class EventDirNameParser extends AbstractParser<Event> {
@@ -54,7 +55,11 @@ public class EventDirNameParser extends AbstractParser<Event> {
 
             String eventNameDirName = dirName.length() > prefix.length() ? dirName.substring(prefix.length()) : "";
             String eventName = eventNameDirName.replaceAll(NON_WORD_CHARACTER_REPLACEMENT_CHARACTER, " ");
-            return new Event(null, eventName, eventDuration);
+            return Event.builder()
+                    .name(eventName)
+                    .duration(eventDuration)
+                    .preferredDirName(eventNameDirName)
+                    .build();
         } catch (FormatException | RuntimeException ex) {
             LOG.error("EventDuration formatter did not match parser for dirName: " + dirName, ex);
             throw new ParseException(dirName, 0);

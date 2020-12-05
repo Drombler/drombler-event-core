@@ -1,21 +1,22 @@
 package org.drombler.event.core.format;
 
+import org.drombler.event.core.MonthEventDuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.softsmithy.lib.time.format.TemporalAccessorParser;
+
 import java.text.ParseException;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.drombler.event.core.MonthEventDuration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.softsmithy.lib.time.format.TemporalAccessorParser;
 
 /**
  * Supports legacy dir names: yyyyMM00-<event-dir-name>
  *
  * @author Florian
  */
-public class MonthEventDurationDirNameParser extends AbstractrEventDurationDirNameParser<MonthEventDuration> {
+public class MonthEventDurationDirNameParser extends AbstractEventDurationDirNameParser<MonthEventDuration> {
 
     private static final Logger LOG = LoggerFactory.getLogger(MonthEventDurationDirNameParser.class);
 
