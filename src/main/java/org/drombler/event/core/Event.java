@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 import org.drombler.identity.core.DromblerId;
 
 import java.util.Set;
@@ -56,6 +57,10 @@ public class Event {
 
     @Singular
     private final Set<DromblerId> participants;
+
+    public boolean isUnnamed() {
+        return StringUtils.isBlank(name);
+    }
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class EventBuilder {
