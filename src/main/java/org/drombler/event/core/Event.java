@@ -5,20 +5,35 @@
  */
 package org.drombler.event.core;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 import org.drombler.identity.core.DromblerId;
 
 import java.util.Set;
 import java.util.UUID;
 
 /**
- *
  * @author Florian
  */
+@JsonPropertyOrder({
+        "id",
+        "name",
+        "duration",
+        "preferredDirName",
+        "owners",
+        "organizers",
+        "participants"
+
+})
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 @Builder
+@JsonDeserialize(builder = Event.EventBuilder.class)
 public class Event {
 
     @ToString.Include
@@ -43,4 +58,11 @@ public class Event {
     @Singular
     private final Set<DromblerId> participants;
 
+    public boolean isUnnamed() {
+        return StringUtils.isBlank(name);
+    }
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class EventBuilder {
+    }
 }
