@@ -1,3 +1,3 @@
-@Library('softsmithy-oss-jenkinsfilelib@10-declarative-configuration') _
+@Library('softsmithy-oss-jenkinsfilelib') _
 
-softsmithyPipeline()
+javalib(ProjectType.JAVA_LIB, 'Apache Maven 3.6', 'Java SE 8')
