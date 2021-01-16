@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/SoftSmithy/softsmithy-oss-jenkinsfilelib/10-declarative-configuration/vars/jenkinsSoftsmithyMavenPipelineConfigSchema.json",
+  "projectType": "LIBRARY",
+  "maven": {
+    "installationName": "Apache Maven 3.6"
+  },
+  "java": {
+    "installationName": "Java SE 8"
+  },
+  "vcs": {
+    "type": "GIT"
+  },
+  "codeHostingPlatform": {
+    "type": "GITHUB"
+  }
+}
